@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Klangwerk Studio 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap">
+<style>
+  /* Layout: a single-column mobile product page, like a real shop seen on a phone; one question card below it. */
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --ink: #17181c;
+    --muted: #5c6070;
+    --line: #e2e4ea;
+    --brand: #1f4fd8;
+    --brand-ink: #ffffff;
+    --alarm: #c8102e;
+    --alarm-soft: #fde8eb;
+    --star: #e8a200;
+    --font: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { background: var(--bg); color: var(--ink); }
+  body {
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.45;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 16px 32px;
+  }
+  .wrap { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+
+  .shopbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .logo { font-weight: 700; font-size: 20px; letter-spacing: -0.02em; }
+  .logo span { color: var(--brand); }
+  .cart { font-size: 14px; color: var(--muted); }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+
+  .alarm-bar { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--alarm); color: #fff; font-weight: 700; border-radius: 10px; padding: 10px 12px; font-size: 15px; }
+  .alarm-bar .time { font-variant-numeric: tabular-nums; font-size: 18px; letter-spacing: 0.02em; }
+
+  .photo { position: relative; background: linear-gradient(160deg, #eef1f8, #dfe5f2); border-radius: 12px; aspect-ratio: 16 / 9; max-width: 100%; display: grid; place-items: center; overflow: hidden; }
+  .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .badge { position: absolute; top: 10px; left: 10px; background: var(--card); color: var(--ink); font-size: 12px; font-weight: 700; padding: 4px 8px; border-radius: 999px; letter-spacing: 0.02em; }
+
+  h1 { margin: 0; font-size: 22px; line-height: 1.2; text-wrap: balance; }
+  .rating { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); }
+  .stars { color: var(--star); letter-spacing: 1px; }
+  .price-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .price { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .vat { font-size: 13px; color: var(--muted); }
+
+  .stock { font-size: 15px; font-weight: 700; color: var(--alarm); background: var(--alarm-soft); border-radius: 8px; padding: 8px 10px; }
+  .stock-ok { font-size: 15px; color: #1d7a3e; }
+  .watchers { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink); }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--alarm); flex: none; }
+
+  .buy { appearance: none; border: 0; border-radius: 10px; background: var(--brand); color: var(--brand-ink); font: inherit; font-weight: 700; font-size: 16px; padding: 14px; width: 100%; cursor: default; opacity: 0.9; }
+  ul.specs { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14px; display: grid; gap: 4px; }
+
+  .ask { border: 2px solid var(--brand); }
+  .ask h2 { margin: 0; font-size: 17px; line-height: 1.3; }
+  .ask p { margin: 0; color: var(--muted); font-size: 14px; }
+  .scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .scale button { appearance: none; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-weight: 700; font-size: 20px; border-radius: 10px; padding: 12px 0; cursor: pointer; }
+  .scale button:hover { border-color: var(--brand); }
+  .scale button:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+  .ends { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+
+  .done { text-align: center; align-items: center; }
+  .done .big { font-size: 64px; font-weight: 700; line-height: 1; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .done h2 { margin: 0; font-size: 18px; }
+  .send { display: block; width: 100%; text-align: center; text-decoration: none; background: var(--brand); color: var(--brand-ink); font-weight: 700; font-size: 17px; border-radius: 10px; padding: 14px; }
+  .send:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+  .foot { font-size: 12px; color: var(--muted); text-align: center; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dot { animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse { 50% { opacity: 0.35; } }
+  }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="shopbar">
+    <div class="logo">Klang<span>werk</span></div>
+    <div class="cart" aria-hidden="true">Warenkorb (0)</div>
+  </header>
+
+  <div class="alarm-bar" id="alarm" hidden>
+    <span>Angebot endet in</span>
+    <span class="time" id="time">09:59</span>
+  </div>
+
+  <main class="card">
+    <div class="photo">
+      <span class="badge" id="badge" hidden>Fast ausverkauft</span>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/81/Headphones_%2856330%29.jpg" alt="Kopfhörer Klangwerk Studio 2" width="678" height="452">
+    </div>
+
+    <h1>Klangwerk Studio 2 – kabelloser Over-Ear-Kopfhörer</h1>
+    <div class="rating"><span class="stars" aria-hidden="true">★★★★☆</span><span>4,3 von 5 · 1.284 Bewertungen</span></div>
+
+    <div class="price-row">
+      <span class="price">89,00 €</span>
+      <span class="vat">inkl. MwSt., kostenloser Versand</span>
+    </div>
+
+    <div class="stock" id="stock-low" hidden>Nur noch 2 auf Lager</div>
+    <div class="stock-ok" id="stock-ok">Auf Lager · Lieferung in 2–3 Werktagen</div>
+    <div class="watchers" id="watchers" hidden><span class="dot"></span><span id="watch-text">14 Personen sehen sich diesen Artikel gerade an</span></div>
+
+    <button class="buy" type="button" tabindex="-1" aria-disabled="true">In den Warenkorb</button>
+
+    <ul class="specs">
+      <li>Aktive Geräuschunterdrückung</li>
+      <li>Bis zu 30 Stunden Akkulaufzeit</li>
+      <li>Bluetooth 5.3, faltbar, mit Transporttasche</li>
+    </ul>
+  </main>
+
+  <section class="card ask" id="ask" aria-labelledby="ask-title">
+    <h2 id="ask-title">Wie dringend würdest du diesen Kopfhörer jetzt kaufen?</h2>
+    <p>Stell dir vor, du suchst gerade einen neuen. Tippe eine Zahl an.</p>
+    <div class="scale" role="group" aria-label="Dringlichkeit von 1 bis 5">
+      <button type="button" id="r1" data-v="1">1</button>
+      <button type="button" id="r2" data-v="2">2</button>
+      <button type="button" id="r3" data-v="3">3</button>
+      <button type="button" id="r4" data-v="4">4</button>
+      <button type="button" id="r5" data-v="5">5</button>
+    </div>
+    <div class="ends"><span>gar nicht</span><span>sofort</span></div>
+  </section>
+
+  <section class="card done" id="done" hidden aria-live="polite">
+    <div class="big" id="mine">–</div>
+    <h2>Fast geschafft: noch abschicken</h2>
+    <a class="send" id="send" href="#" target="_blank" rel="noopener">Antwort abschicken</a>
+    <p>Es öffnet sich ein kurzes Formular, deine Zahl ist schon eingetragen. Dort nur noch auf „Senden“ bzw. „Submit“ tippen. Bitte nicht mit deinen Nachbarn vergleichen.</p>
+  </section>
+
+  <p class="foot">Fiktiver Shop für ein Uni-Referat. Hier wird nichts verkauft. Gespeichert wird nur die Zahl, die du abschickst – anonym.<br>Produktfoto: Wikimedia Commons, gemeinfrei (CC0).</p>
+</div>
+
+<script>
+(function () {
+  var KEY = "klangwerk-version";
+  var KEY_ANSWER = "klangwerk-antwort";
+
+  function read(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function write(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  // #neutral / #knapp forces a version (for the presenters); otherwise random, remembered per phone.
+  var forced = (location.hash || "").replace("#", "");
+  var version = forced === "knapp" || forced === "neutral" ? forced : read(KEY);
+  if (version !== "knapp" && version !== "neutral") {
+    version = Math.random() < 0.5 ? "knapp" : "neutral";
+    write(KEY, version);
+  }
+
+  if (version === "knapp") {
+    document.getElementById("alarm").hidden = false;
+    document.getElementById("badge").hidden = false;
+    document.getElementById("stock-low").hidden = false;
+    document.getElementById("stock-ok").hidden = true;
+    document.getElementById("watchers").hidden = false;
+
+    // Countdown that quietly starts over at zero, like many real ones.
+    var total = 599;
+    var timeEl = document.getElementById("time");
+    setInterval(function () {
+      total = total <= 0 ? 599 : total - 1;
+      var m = Math.floor(total / 60), s = total % 60;
+      timeEl.textContent = "0" + m + ":" + (s < 10 ? "0" : "") + s;
+    }, 1000);
+
+    var watchers = [14, 15, 13, 16, 14, 17];
+    var i = 0;
+    var watchEl = document.getElementById("watch-text");
+    setInterval(function () {
+      i = (i + 1) % watchers.length;
+      watchEl.textContent = watchers[i] + " Personen sehen sich diesen Artikel gerade an";
+    }, 7000);
+  }
+
+  var FORMS = {
+    neutral: "https://docs.google.com/forms/d/e/1FAIpQLSdiL61R2AV-S2qFpbApzO7AA2N8UuYCqM1tEZZsxg0Bl9iU9Q/viewform?usp=pp_url&entry.1881856229=",
+    knapp: "https://docs.google.com/forms/d/e/1FAIpQLSf0yrux_Nzs7CXiGywvkxUIkjsmLHiEDhn-ZpLPOf4UsRMRPg/viewform?usp=pp_url&entry.80281878="
+  };
+
+  function showDone(v) {
+    document.getElementById("mine").textContent = v;
+    document.getElementById("send").href = FORMS[version] + encodeURIComponent(v);
+    document.getElementById("ask").hidden = true;
+    document.getElementById("done").hidden = false;
+  }
+
+  var saved = read(KEY_ANSWER);
+  if (saved && !forced) showDone(saved);
+
+  Array.prototype.forEach.call(document.querySelectorAll(".scale button"), function (b) {
+    b.addEventListener("click", function () {
+      var v = b.getAttribute("data-v");
+      write(KEY_ANSWER, v);
+      showDone(v);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
